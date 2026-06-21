@@ -1,0 +1,15 @@
+LTspice 26.0.2 for Windows
+Circuit: E:\REPOS\analog-front-end-ecg\simulation\inverting_amp.net
+Start Time: Sun Jun 21 12:23:30 2026
+solver = Normal
+Maximum thread count: 24
+tnom = 27
+temp = 27
+method = trap
+Direct Newton iteration succeeded in finding operating point.
+Total elapsed time: 0.039 seconds.
+
+Files loaded:
+E:\REPOS\analog-front-end-ecg\simulation\inverting_amp.net
+C:\Users\devan\AppData\Local\LTspice\lib\sub\LTC.lib
+
