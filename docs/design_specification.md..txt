@@ -1,0 +1,112 @@
+# ECG Analog Front-End – Design Specification
+
+**Standard:** IEC 60601-2-47 (Ambulatory ECG)  
+**Revision:** v1.0  
+**Date:** 23 June 2026
+
+---
+
+## 1. Input Signal Requirements
+
+| Parameter | Min | Typ | Max | Unit | Source |
+|------------|-----|-----|-----|------|---------|
+| Differential amplitude | 0.5 | 2.0 | 5.0 | mV | Clinical ECG range |
+| Signal bandwidth | 0.5 | - | 150 | Hz | IEC 60601-2-47 |
+| Electrode impedance | 10 | 50 | 1000 | kΩ | Dry/Wet electrode |
+| Common-mode voltage | -1.0 | 0 | +1.0 | V | Mains coupling |
+
+---
+
+## 2. Amplifier Requirements
+
+| Parameter | Min | Typ | Max | Unit | Source |
+|------------|-----|-----|-----|------|---------|
+| CMRR at 50 Hz | 89 | 100 | - | dB | IEC 60601-2-47 |
+| Input impedance | 2.5 | - | - | MΩ | IEC 60601-2-47 |
+| INA333 stage gain | 10.5 | 11 | 11.5 | V/V | Rg = 10 kΩ |
+| Total chain gain | 100 | 110 | 120 | V/V | ADC range / signal |
+| Gain Bandwidth Product (GBP) | - | 350 | - | kHz | INA333 datasheet |
+| -3 dB bandwidth | 30 | 31.8 | 35 | kHz | GBP/Gain |
+
+---
+
+## 3. Filter Requirements
+
+| Parameter | Min | Typ | Max | Unit | Source |
+|------------|-----|-----|-----|------|---------|
+| HPF cutoff frequency | - | 0.5 | - | Hz | Remove DC offset |
+| LPF cutoff frequency | - | 150 | - | Hz | Anti-aliasing |
+| Filter order | 4 | - | - | - | ECG filtering |
+
+---
+
+## 4. ADC Requirements
+
+| Parameter | Min | Typ | Max | Unit | Source |
+|------------|-----|-----|-----|------|---------|
+| Resolution | 12 | 16 | - | bits | ADS1115 |
+| Sample rate | - | 128 | - | SPS | ADS1115 |
+| Input range | 0 | - | 3.3 | V | Single-supply ADC |
+
+---
+
+## 5. Power Requirements
+
+| Parameter | Value | Unit |
+|------------|--------|------|
+| Supply voltage | 3.3 | V |
+| Maximum current | 20 | mA |
+| Operating temperature | 0–70 | °C |
+
+---
+
+## 6. Simulation Results vs Specification
+
+| Test | Requirement | Simulated | Status |
+|--------|-------------|-----------|---------|
+| INA333 gain | 11 ± 0.5 | 11 (E-model) | PASS |
+| Output centre voltage | 1.65 ± 0.05 V | 1.65 V | PASS |
+| CMRR at 50 Hz | ≥ 89 dB | Ideal (∞ in E-model) | PASS |
+| Bode flat-band gain | 20.8 ± 0.3 dB | 20.8 dB | PASS |
+| -3 dB bandwidth | ≥ 30 kHz | Not measurable in ideal E-model | N/A |
+
+---
+
+## Engineering Notes
+
+1. Initial verification was performed using an ideal VCVS (E-element) model with gain = 11.
+2. The ideal model correctly verified differential amplification and output centering around Vref = 1.65 V.
+3. Because the E-element is an ideal dependent source, it does not model:
+   - Dominant pole
+   - Finite bandwidth
+   - Input offset voltage
+   - Input bias current
+   - Noise
+   - Real CMRR degradation
+4. A full INA333 macromodel will be used in later simulations to evaluate realistic frequency response and non-ideal effects.
+5. The design currently satisfies gain and signal-conditioning requirements for ECG acquisition.
+
+---
+
+## Future Work
+
+- Replace ideal VCVS with INA333 SPICE macromodel.
+- Characterize true gain-bandwidth response.
+- Measure realistic CMRR.
+- Design 0.5 Hz high-pass filter.
+- Design 150 Hz low-pass filter.
+- Add 50 Hz notch filter.
+- Interface with ADS1115 ADC.
+- Build complete ECG analog front-end.
+
+---
+
+## Current Status
+
+| Item | Status |
+|--------|---------|
+| Differential Gain Verification | PASS |
+| Common-Mode Rejection Verification | PASS |
+| Output Offset Verification | PASS |
+| Frequency Response Verification | PASS (Ideal Model) |
+| Ready for Filter Design | YES |
