@@ -93,7 +93,7 @@ Digital Signal Processing
 
 **Simulation**
 
-![HPF Bode Plot](simulation/hpf_bode.png)
+![HPF Bode Plot](simulation/HPF_bode_plot.png)
 
 ---
 
@@ -109,7 +109,7 @@ Digital Signal Processing
 
 **Simulation**
 
-![LPF Bode Plot](simulation/lpf_bode.png)
+![LPF Bode Plot](simulation/LPF_bode_plot.png)
 
 ---
 
